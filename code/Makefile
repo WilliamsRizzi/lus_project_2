@@ -1,7 +1,16 @@
 .PHONY: clean
 
+all: model_1 model_2
+
 data:
-	@bash model/preprocess.sh
+	@./scripts/preprocess.sh
+
+model_1: data
+	@./scripts/run.sh 1
+
+model_2: data
+	@./scripts/run.sh 2
 
 clean:
-	@rm -r data
+	@rm -rf data
+	@rm -rf computations
