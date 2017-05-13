@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# extract the model name from the file path
+function parse_model() {
+    cat - | sed 's/computations\/\(.*\)\/performances$/\1/'
+}
+
+# parse the output of the evaluation script
+function parse_performances() {
+    cat - | sed -n 2p | sed 's/^.*precision: *\(.*\)%; recall: *\(.*\)%; FB1: *\(.*\)$/\1% \2% \3%/'
+}
+
+# comparison
+for file in "computations/*/performances"; do
+    model=$(echo $file)
+    for m in $model; do
+        echo -n $m | parse_model
+        echo -n ' '
+        cat $file | parse_performances
+    done
+done
