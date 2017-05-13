@@ -1,14 +1,14 @@
 .PHONY: clean compare
 
-all: model_1 model_2 compare
+all: computations/model_1 computations/model_2 compare
 
 data:
 	@./scripts/preprocess.sh
 
-model_1: data
+computations/model_1: data
 	@./scripts/run.sh 1
 
-model_2: data
+computations/model_2: data
 	@./scripts/run.sh 2
 
 compare: 

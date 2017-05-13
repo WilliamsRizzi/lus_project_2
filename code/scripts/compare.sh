@@ -16,6 +16,6 @@ for file in "computations/*/performances"; do
     for m in $model; do
         echo -n $m | parse_model
         echo -n ' '
-        cat $file | parse_performances
+        cat $m | parse_performances
     done
 done
