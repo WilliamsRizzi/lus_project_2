@@ -1,0 +1,70 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[hyperref]{acl2017}
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage{url}
+
+% acronyms support
+\usepackage{acronym}
+
+% decent fonts
+\usepackage[T1]{fontenc}
+\usepackage{pifont}
+\usepackage{microtype}
+
+% nice looking tables and math
+\usepackage{booktabs}
+\usepackage{amsmath}
+
+% images
+\usepackage{graphicx}
+
+% cref
+\usepackage[noabbrev,capitalise]{cleveref}
+
+% list of acronyms
+\acrodef{SLU}{Spoken Language Understanding}
+\acrodef{WFST}{Weighted Finite State Transducers}
+\acrodef{CRF}{Conditional Random Fields}
+\acrodef{POS}{Part of Speech}
+\acrodef{IOB}{Inside, Outside, Beginning}
+\acrodef{OOV}{Out of Vocabulary}
+\acrodef{FSA}{Finite State Acceptor}
+\acrodef{FST}{Finite State Transducer}
+
+% math commands
+\DeclareMathOperator*{\argmax}{arg\!\max}
+
+% include name and email
+\aclfinalcopy
+
+\title{
+  Concept Sequence Tagging for a Movie Domain with CRF \\
+  Language Understanding Systems, Second Project
+} 
+
+\author{Davide Pedranz \\
+  Mat. number 189295 \\
+  {\tt davide.pedranz@studenti.unitn.it}
+}
+
+\date{28 May 2017}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Concept Sequence Tagging is a fundamental for any \ac{SLU} system.
+The concepts extracted from the user sentences can be used to understand the user's request and prepare the appropriate reply.
+In this project, we trained discriminative \ac{CRF} classifiers to extract concepts from sentences taken from the movie domain and compared the performances with the \ac{WFST} generative models developed in the mid-term project.
+\end{abstract}
+
+\input{01_introduction}
+\input{02_crf}
+\input{03_dataset}
+% \input{04_implementation}
+% \input{05_improvements}
+% \input{06_performances}
+% \input{07_conclusions}
+
+\end{document}

@@ -1,0 +1,16 @@
+\section{Data Set}
+\label{sec:dataset}
+
+The data set used is NL-SPARQL, a corpora of sentences from the movie domain.
+The provided features are: words, \ac{POS} tags and words stems.
+The aim is to extract concepts, such as the actor name or the movie release date.
+Please checkout the mid-term project for a detailed description of the data set.
+
+\subsection{Preprocessing}
+Before training the classifiers, additional features were computed from the available data:
+\begin{itemize}
+    \item the word's stem is capitalized;
+    \item the word is a language;
+    \item the word prefix (of 1, 2 and 3 letters);
+    \item the word suffix (of 1, 2 and 3 letters).
+\end{itemize}
