@@ -11,7 +11,7 @@ function parse_performances() {
 }
 
 # comparison
-for file in "computations/*/performances"; do
+for file in "computations/*/*/performances"; do
     model=$(echo $file)
     for m in $model; do
         echo -n $m | parse_model

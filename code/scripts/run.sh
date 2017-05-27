@@ -10,18 +10,21 @@ if [[ ! "$#" == 1 ]]; then
 fi
 
 # extract the model to train
-n=$1
-model="model_${n}"
+model=$1
 
 # folder for tmp files
 mkdir -p "computations/${model}"
 
 # train
-crf_learn "model/template_${n}" "data/train.txt" "computations/${model}/model"
+echo "Training model... ${model}"
+/usr/local/bin/crf_learn -c 1.5 "models/${model}" "data/train.txt" "computations/${model}/model" > /dev/null
 
 # test
-crf_test -m "computations/${model}/model" "data/test.txt" > "computations/${model}/comparison"
+/usr/local/bin/crf_test -m "computations/${model}/model" "data/test.txt" > "computations/${model}/comparison"
 
 # evaluate
 ./scripts/conlleval.pl -d '\t' < "computations/${model}/comparison" > "computations/${model}/performances"
 head -n2 "computations/${model}/performances"
+
+# compute the errors
+./scripts/errors.py < "computations/${model}/comparison" > "computations/${model}/errors"
