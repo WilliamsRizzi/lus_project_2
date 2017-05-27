@@ -1,0 +1,36 @@
+\section{Experiments}
+\label{sec:experiments}
+
+We performed the following trials:
+\begin{enumerate}
+    \item Train a simple model using only the words
+    \item Add additional features among the original ones
+    \item Create new features as a combination of the others
+    \item Use a genetic algorithm to automatically create and select the best features
+\end{enumerate}
+
+\subsection{Model 1}
+\label{subsection:1}
+The first trial was to try to classify the concepts using only the words of the sentence.
+We experimented using different window sizes, i.e. creating a feature function for the current word and the preceding and following $n$ words, with $n \in [0,8]$.
+In addition, we tried to enable the bigram templates of \texttt{CRF++}, i.e. considering also the label of the previous word to classify the current one. 
+
+\begin{table}[t!]
+	\centering
+    \begin{tabular}{ c c c }
+    	\toprule
+    		\multicolumn{1}{c}{n} & \multicolumn{1}{c}{F1, no bigram} & \multicolumn{1}{c}{F1, bigram} \\
+    	\midrule
+            \input{table/01_words}
+    	\bottomrule
+	\end{tabular}
+    \caption{Performances of the models using only the words as a feature. For each window size, the model is trained with and without the bigram template. In all cases, the bigram template helps to get higher performances.}
+	\label{tab:words}
+\end{table}
+
+\cref{tab:words} summaries the performances of the different models.
+In all cases, the bigram template helps to get significantly higher performances.
+The best model is the one with window size $2$, using bigrams.
+The performances degrades for higher window sizes.
+Probably the words which are very far away from the current one have very little effect on the semantic of the current one.
+On the other side, the concept of the previous word seems to be very important to better classify the current one.
