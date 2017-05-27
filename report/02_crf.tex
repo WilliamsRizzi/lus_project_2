@@ -1,7 +1,7 @@
 \section{Conditional Random Fields}
 \label{sec:crf}
 
-\ac{CRF} are log-linear models for labelling and segmenting sequential data.
+\ac{CRF} are log-linear models for labelling and segmenting sequential data \cite{elkan}.
 In general, log-linear models describe the probability of the label $y$ given the example $x$ as:
 \begin{equation*}
     p(y|x;w) = \frac{exp \sum_{j = 1}^{J} F_{j}(x, y)}{Z(x, w)},
@@ -10,7 +10,7 @@ where $w$ is a vector of weights that describe the importance of each feature an
 $F_{j}$ is called a feature function, i.e. a measure of the compatibility between example $x$ and label $y$.
 In \ac{CRF}, features are functions of the sentence $x$, the current label $y_{i}$, the previous label $y_{i-1}$ and the position $i$;
 the output is usually binary.
-An example of feature could be: ``1 if the word $x_i$ is capitalized and the label $y_i$ is \texttt{actor.name}''.
+An example of feature could be: ``$1$ if the word $x_i$ is capitalized and the label $y_i$ is \texttt{actor.name}''.
 
 The power of \ac{CRF} is that anything can be a feature.
 It is possible to use multiple features at the same time and combine them together to obtain new more complex features.
