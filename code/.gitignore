@@ -1,3 +1,4 @@
-data/
+# temporary folder, computation results
 computations/
+genetic/
 evolution_log.pickle
