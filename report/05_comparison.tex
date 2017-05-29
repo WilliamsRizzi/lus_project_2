@@ -1,0 +1,29 @@
+\section{Comparison}
+\label{sec:comparison}
+
+This section presents the comparison between \ac{WFST} and \ac{CRF}.
+We focus in the model performances and training complexity.
+
+\subsection{Baseline}
+The best \ac{WFST} model in the mid-term project used a 4-gram language model for the concept tags and achieved a F1 score of $82.74\%$.
+The baseline \ac{CRF} model described in \cref{subsection:words} achieved a F1 score of $81.39\%$.
+Both models used only the words as a feature.
+\ac{CRF} models, due to the \texttt{CRF++} limitations and the model complexity, can only take into account the current and the previous label for the classification.
+In the \ac{WFST} model, this would correspond to a 2-gram language model for the concepts, which performed $79.45\%$ F1 score.
+\ac{WFST} models are simpler to build and can thus use more complex language models that can outperform more complex generative methods.
+
+\subsection{Complex Models}
+The more advanced \ac{CRF} models trained described in \cref{subsection:additional} achieved a F1 score of $83.44\%$, which outperforms the best \ac{WFST} model.
+The model combines words, POS tags, stems, prefixes and radixes.
+This shows how discriminative models can exploit additional information that can not be easily modeled with generative models.
+Thanks to this additional information, \ac{CRF} outperformed \ac{WFST} on the concept tagging task.
+
+\subsection{Training Complexity}
+\ac{WFST} models are based only on the probability distributions of the feature taken into account and the tags, so they are very easy to train.
+Some effort should be put into the choice of the meta-parameters such as the window size for the language model and the smoothing method.
+
+\ac{CRF} models, on the other hand, require to manually specify the features to use.
+As described in \cref{sec:experiments}, this can be very difficult due to the exponential number of possible combinations.
+This problem can be partially solved using optimization techniques such as genetic algorithms.
+These methods allows to automatically pick the best features combination, at the cost of some additional computation power for the training phase.
+In our case, the genetic algorithm managed to improved significantly the model performances, as described in \cref{subsection:genetic}.

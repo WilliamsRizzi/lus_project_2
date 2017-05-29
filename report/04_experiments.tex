@@ -34,9 +34,9 @@ Probably the words very distant from the current one have little effect on the s
 Taking them into account makes the model overfit the training data.
 
 \subsection{POS}
-\label{subsection:original}
+\label{subsection:pos}
 The next step was to try with the other features initially provided, i.e. \ac{POS} and word stems.
-Given the results presented in \cref{subsection:original}, we decided to consider only templates using the bigrams.
+Given the results presented in \cref{subsection:words}, we decided to consider only templates using the bigrams.
 
 From the best template in the previous section (windows size of $2$), we started to add \ac{POS} features.
 The used again the window approach, with a size $n \in [0,5]$.
@@ -59,6 +59,7 @@ Similarly to the previous models, a large window seems to overfit the training d
 \end{table}
 
 \subsection{Stems}
+\label{subsection:stems}
 We repeated the same procedure for the word stems, using a window size $n \in [0,5]$.
 The stem feature helped to obtain a slightly improvement, even tough not significant.
 In this case, a window size of $0$ made the classifier performances slightly better, while all other attempts gave a worsening.
@@ -79,9 +80,19 @@ The results of this trial are reported in \cref{tab:stems}.
 
 \subsection{Additional Features}
 \label{subsection:additional}
-At this point, we tried to add new features. 
 Since many concepts spans on multiple words, we started to add features for sequences of successive 2 words, \ac{POS} tags and stems.
 Then, we tried to combine words and \ac{POS} tags of closed words.
+Unfortunately, the performances decreased in both cases.
+
+Since both POS and Stems seemed to be useful for the classifier, we tried combine larger window sizes for words, \ac{POS} and stems with the new addition features.
+After some attempts, we were able to increase the performances of the model to F1 of $82.63\%$.
+
+Finally, we tried to add the addition features described in section \cref{subsection:preprocessing}.
+The feature ``stem is capitalized'' and ``word is a language'' did not help the classifier.
+The words' prefixes and suffixes, on the other hand, improved the classifier performances, reaching F1 score of $83.44\%$
+
+\subsection{Regularization}
+TODO: best model on different valued of the Regularization parameter.
 
 \subsection{Genetic Algorithm}
 \label{subsection:genetic}
@@ -126,7 +137,7 @@ With some additional epochs of training, the algorithm managed to significantly 
 The generated template contains many features presented in the previous sections and some more complex features chosen by the genetic algorithm.
 It is interesting to notice that some features are duplicated in most individuals generated during the search.
 The removal of the duplicated cause a slightly worsening of the performances.
-The \texttt{CRF++} was probably not able to find the optimal weights for the feature functions and the duplicates help to obtain better weights.
+The \texttt{CRF++} internal optimization routine was probably not able to find the optimal weights for the feature functions, so the duplicates helped to compute better weights.
 
 We believe that it is possible to obtain even better results by tuning the meta-parameters of the genetic algorithm and running the algorithm for additional epochs.
 This exploration requires a significant amount of time and is left as a future work.
