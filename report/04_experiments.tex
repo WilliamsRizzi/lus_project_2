@@ -4,7 +4,7 @@
 \subsection{Words}
 \label{subsection:words}
 The first trial was to train a \ac{CRF} using only the words of the sentence.
-The result was used as the baseline for the evaluation of the performances of more complex models.
+The result was used as baseline for the performances evaluation of more complex models.
 We experimented using different window sizes, i.e. creating a feature function for the current word and the preceding and following $n$ words, with $n \in [0,6]$.
 In addition, we tried to enable the bigram templates of \texttt{CRF++}, i.e. considering also the label of the previous word to classify the current one. 
 
@@ -25,7 +25,7 @@ In addition, we tried to enable the bigram templates of \texttt{CRF++}, i.e. con
 In all cases, the bigram template helps to get significantly higher performances.
 The best model is the one with bigrams and window size $2$.
 The concept of the previous word seems to be very important to better classify the current one (bigram template).
-The performances improve up to window size $2$, then degrades for larger ones.
+The performances improve window a size up to $2$, then degrades for larger ones.
 The words very distant from the current one seems to have little or no effect on the semantic of the current one.
 Taking them into account makes the model overfit the training data.
 

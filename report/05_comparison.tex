@@ -4,8 +4,8 @@
 \subsection{Baseline}
 The best \ac{WFST} model in the mid-term project used a 4-gram language model for the concept tags and achieved a F1 score of $82.74\%$.
 The baseline \ac{CRF} model described in \cref{subsection:words} achieved a F1 score of $81.39\%$.
-Both models used only the words as a feature.
-\ac{CRF} models, due to the \texttt{CRF++} limitations and the model complexity, can only take into account the current and the previous label for the classification.
+Both models used only the words feature.
+Due to the \texttt{CRF++} limitations and the model complexity, \ac{CRF} models can only take into account the current and the previous label for the classification.
 In the \ac{WFST} model, this would correspond to a 2-gram language model for the concepts, which performed $79.45\%$ F1 score.
 \ac{WFST} models are simpler to build and can thus use more complex language models that can outperform more complex generative methods.
 
