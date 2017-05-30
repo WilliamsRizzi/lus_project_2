@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
-#---------------------------------------------------------
-# prepare the training and test data
-#---------------------------------------------------------
+#
+# This script is used to pre-process train and test data
+# in order to extract additional features.
+#
 
 # make folder where to store the files
 mkdir -p "data"
 
-# create new features and merge them togheter
+# create new features and merge them together
 root="data_raw"
 dest="data"
 for type in "train" "test"; do

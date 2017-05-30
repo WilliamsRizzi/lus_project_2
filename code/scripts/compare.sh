@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+#
+# This script is used to compare the performances of
+# all models trained so far.
+#
+
 # extract the model name from the file path
 function parse_model() {
     cat - | sed 's/computations\/\(.*\)\/performances$/\1/'

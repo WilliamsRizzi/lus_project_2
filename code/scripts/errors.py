@@ -1,14 +1,26 @@
 #!/usr/bin/env python3
 
+#
+# This Python script analyzes the predictions of a CRF++ model
+# and outputs the sentences that contains prediction errors.
+# This was used to come up with good features during the training.
+#
+
 import sys
 
-def main():
-    line_number = 0
 
+def main():
+    """
+    Read the CRF++ prediction output from the standard input,
+    compute the prediction errors and print them to the standard output.
+    """
+
+    # initialization
+    line_number = 0
     errors = False
     current_phrase = []
-    start_index = 0
 
+    # read line by line
     for line in sys.stdin:
         line_number += 1
         line = line.replace('\n', '')
@@ -37,7 +49,9 @@ def main():
             prediction = chunks[l - 1]
             real = chunks[l - 2]
             if prediction != real:
-                errors = True        
+                errors = True
 
+
+# entry point
 if __name__ == "__main__":
     main()
