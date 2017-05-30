@@ -3,7 +3,7 @@
 
 \subsection{Words}
 \label{subsection:words}
-The first trial was to try to classify the concepts using only the words of the sentence.
+The first trial was to train a \ac{CRF} using only the words of the sentence.
 The result was used as the baseline for the evaluation of the performances of more complex models.
 We experimented using different window sizes, i.e. creating a feature function for the current word and the preceding and following $n$ words, with $n \in [0,6]$.
 In addition, we tried to enable the bigram templates of \texttt{CRF++}, i.e. considering also the label of the previous word to classify the current one. 
@@ -25,18 +25,17 @@ In addition, we tried to enable the bigram templates of \texttt{CRF++}, i.e. con
 In all cases, the bigram template helps to get significantly higher performances.
 The best model is the one with bigrams and window size $2$.
 The concept of the previous word seems to be very important to better classify the current one (bigram template).
-The performances improve up to window size $2$, then degrades for higher sizes.
-Probably the words very distant from the current one have little effect on the semantic of the current one.
+The performances improve up to window size $2$, then degrades for larger ones.
+The words very distant from the current one seems to have little or no effect on the semantic of the current one.
 Taking them into account makes the model overfit the training data.
 
 \subsection{POS}
 \label{subsection:pos}
-The next step was to try with the other features initially provided, i.e. \ac{POS} and word stems.
-Given the results presented in \cref{subsection:words}, we decided to consider only templates using the bigrams.
+The next step was to try the other features initially provided, i.e. \ac{POS} and word stems.
+Given the results presented in \cref{subsection:words}, we considered only templates using the bigrams.
 
-From the best template in the previous section (windows size of $2$), we started to add \ac{POS} features.
-The used again the window approach, with a size $n \in [0,4]$.
-The results are showed in \cref{tab:pos}.
+We started to add \ac{POS} features to the best template in the previous section (windows size of $2$), using again the window approach with $n \in [0,4]$.
+The results are shown in \cref{tab:pos}.
 As expected, the \ac{POS} features improved the performances of the classifier.
 The best model was obtained for $n = 2$.
 Similarly to the previous models, a large window seems to overfit the training data.
@@ -57,9 +56,9 @@ Similarly to the previous models, a large window seems to overfit the training d
 \subsection{Stems}
 \label{subsection:stems}
 We repeated the same procedure for the word stems, using a window size $n \in [0,4]$.
-The stem feature helped to obtain a slightly improvement, even tough not significant.
-In this case, a window size of $0$ made the classifier performances slightly better, while all other attempts gave a worsening.
-The results of this trial are reported in \cref{tab:stems}.
+The stem feature helped to obtain a slightly improvement, even though not significant.
+A window size of $0$ made the classifier performances slightly better, while all other attempts gave a worsening.
+The results are reported in \cref{tab:stems}.
 
 \begin{table}[h]
 	\centering
@@ -76,16 +75,16 @@ The results of this trial are reported in \cref{tab:stems}.
 
 \subsection{Additional Features}
 \label{subsection:additional}
-Since many concepts spans on multiple words, we started to add features for sequences of successive 2 words, \ac{POS} tags and stems.
+Since many concepts spans on multiple words, we added features for sequences of successive 2 words, \ac{POS} tags and stems.
 Then, we tried to combine words and \ac{POS} tags of closed words.
 Unfortunately, the performances decreased in both cases.
 
 Since both POS and Stems seemed to be useful for the classifier, we tried combine larger window sizes for words, \ac{POS} and stems with the new addition features.
 After some attempts, we were able to increase the performances of the model to F1 of $82.63\%$.
 
-Finally, we tried to add the addition features described in section \cref{subsection:preprocessing}.
-The feature ``stem is capitalized'' and ``word is a language'' did not help the classifier.
-The words' prefixes and suffixes, on the other hand, improved the classifier performances, reaching F1 score of $83.44\%$
+Finally, we added the features generated from the available ones, as described in section \cref{subsection:preprocessing}.
+The features ``stem is capitalized'' and ``word is a language'' did not help the classifier at all.
+On the other hand, prefixes and suffixes improved performances, getting a F1 score of $83.44\%$
 
 \subsection{Regularization}
 We tried different regularization parameters (\texttt{c} option in \texttt{CRF++}) for the best model found so far.
@@ -101,7 +100,7 @@ We can notice that the parameter slightly influences the final performances.
             \input{table/04_regularization}
     	\bottomrule
 	\end{tabular}
-    \caption{Performances of the the best \ac{CRF} model so far, trained using different regularization parameters.}
+    \caption{Performances of the the best \ac{CRF} model, trained using different regularization parameters.}
 	\label{tab:regularization}
 \end{table}
 
@@ -113,7 +112,7 @@ Following the genetic analogy \cite{lion}, we treated a \ac{CRF} template as an 
 A set of individuals form a population.
 
 \subsubsection{Initialization}
-The algorithm is divided two phases.
+The algorithm is divided in two phases.
 The first one consists in the population initialization.
 In our case, the initial population is composed by the union of the best scoring \ac{CRF} models with some randomly generated individuals.
 To generate a new individual, it is sufficient to randomly select a set of genes.
@@ -122,36 +121,36 @@ The bigram options is automatically added to the entire population to guarantee 
 \subsection{Evolution}
 The second phase is the evolution.
 The evolution lasts several epochs.
-Each epoch generate a new population starting from the current one, trying to select the best individuals.
-After the last iteration, the population should contain the best individuals found during the search.
-At each epoch, the following steps are performed.
+Each epoch generates a new population starting from the current one, trying to select the best individuals.
+After the last iteration, the population contains the best individuals found during the search.
+At each iteration, the following steps are performed.
 
 \paragraph{Selection}
-The population evaluated using the fitness function, in our case the F1 score on the test data.
-The individual are paired using some stochastic scheme.
+The population is evaluated using the fitness function, in our case the F1 score on the test data.
+The individuals are paired using some stochastic scheme.
 The best ones are selected for the following phases, while the others are discarded.
 
 \paragraph{Reproduction}
-The selected individuals have a certain probability to be mated with each other.
-The mated pairs generate a children by randomly choosing among their genes, in this case the feature functions.
+The selected individuals have a certain probability mate with each other.
+The mated pairs generate a child by randomly choosing among their genes, in this case the feature functions.
 The new individual is then added to current the population.
 
 \paragraph{Mutation}
-All individuals in the population have a certain probability of mutate, i.e. change some of their genes.
+All individuals in the population have a certain probability to mutate, i.e. change some of their genes.
 Possible mutations are: gene deletion, gene insertion and gene substitution.
-More mutations can append at the same time.
+Multiple mutations can append at the same time.
 The mutated population is used for the next epoch.
 
 \subsubsection{Results}
-In a few epochs, the genetic algorithm managed to achieve the same performances of the best manually written model.
-With some additional epochs of training, the algorithm managed to significantly improve the best model so far, reaching a F1 score of $84.15\%$.
-The generated template contains many features presented in the previous sections and some more complex features chosen by the genetic algorithm.
-It is interesting to notice that some features are duplicated in most individuals generated during the search.
-The removal of the duplicated cause a slightly worsening of the performances.
+In few epochs, the genetic algorithm managed to achieve the same performances of the best manually written model.
+With some additional epochs of training, the algorithm managed to outperform it, reaching a F1 score of $84.15\%$.
+The generated template contains many features presented in the previous sections as well as some more complex features selected by the genetic algorithm.
+It is interesting to notice that some features are duplicated in many individuals generated during the search.
+The removal of the duplicates causes a slightly worsening of the performances.
 The \texttt{CRF++} internal optimization routine was probably not able to find the optimal weights for the feature functions, so the duplicates helped to compute better weights.
 
-We believe that it is possible to obtain even better results by tuning the meta-parameters of the genetic algorithm and running the algorithm for additional epochs.
-This exploration requires a significant amount of time and is left as a future work.
+We believe that it is possible to obtain even better results by tuning the meta-parameters of the genetic algorithm and running the algorithm for some additional epochs.
+This exploration is left as a future work.
 
-Changing the regularization parameter does not help the the best model found by the genetic algorithm.
-The algorithm seems to be able to automatically pick the best features for the given regularization parameter.
+Changing the regularization parameter did not improve the performances of the best model.
+The genetic algorithm seems to be able to automatically pick the best features for the given regularization parameter.

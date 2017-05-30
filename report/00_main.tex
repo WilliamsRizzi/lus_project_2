@@ -28,12 +28,6 @@
 \acrodef{CRF}{Conditional Random Fields}
 \acrodef{POS}{Part of Speech}
 \acrodef{IOB}{Inside, Outside, Beginning}
-\acrodef{OOV}{Out of Vocabulary}
-\acrodef{FSA}{Finite State Acceptor}
-\acrodef{FST}{Finite State Transducer}
-
-% math commands
-\DeclareMathOperator*{\argmax}{arg\!\max}
 
 % include name and email
 \aclfinalcopy
@@ -55,8 +49,8 @@
 
 \begin{abstract}
 Concept Sequence Tagging is a fundamental task for any \ac{SLU} system.
-The concepts extracted from the user sentences can be used to understand the user's requests and prepare the appropriate replies.
-In this project, we trained discriminative \ac{CRF} classifiers to extract concepts from sentences taken from the movie domain.
+Concepts can be used to understand the semantic of user's requests and give appropriate replies.
+In this project, we trained \ac{CRF} classifiers to extract concepts from sentences taken from the movie domain.
 Then, we compared the performances with the \ac{WFST} generative models developed in the mid-term project.
 \end{abstract}
 

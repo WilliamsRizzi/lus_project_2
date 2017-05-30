@@ -10,7 +10,7 @@ In the \ac{WFST} model, this would correspond to a 2-gram language model for the
 \ac{WFST} models are simpler to build and can thus use more complex language models that can outperform more complex generative methods.
 
 \subsection{Complex Models}
-The more advanced \ac{CRF} models trained described in \cref{subsection:additional} achieved a F1 score of $83.44\%$, which outperforms the best \ac{WFST} model.
+The most advanced \ac{CRF} models trained described in \cref{subsection:additional} achieved a F1 score of $83.57\%$.
 The model combines words, POS tags, stems, prefixes and radixes.
 This shows how discriminative models can exploit additional information that can not be easily modeled with generative models.
 Thanks to this additional information, \ac{CRF} outperformed \ac{WFST} on the concept tagging task.
@@ -36,11 +36,12 @@ We can notice that the \ac{WFST} model has a significantly higher recall than bo
 On the other hand, \ac{CRF} models exploit multiple features and are able to find more concepts, at the cost of some extra false positive.
 
 \subsection{Training Complexity}
-\ac{WFST} models are based only on the probability distributions of the feature taken into account and the tags, so they are very easy to train.
-Some effort should be put into the choice of the meta-parameters such as the window size for the language model and the smoothing method.
+\ac{WFST} are very easy to train, since the training only requires to estimate some probability distributions from the training data.
+This can be done by simply compute frequencies and normalizing them to probabilities.
+Some effort should be put into the choice of the meta-parameters such as the window size for the n-gram language model and the smoothing method.
 
-\ac{CRF} models, on the other hand, require to manually specify the features to use.
+In contrast, \ac{CRF} require to manually specify the features to use.
 As described in \cref{sec:experiments}, this can be very difficult due to the exponential number of possible combinations.
-This problem can be partially solved using optimization techniques such as genetic algorithms.
-These methods allows to automatically pick the best features combination, at the cost of some additional computation power for the training phase.
+The problem can be partially solved using optimization techniques such as genetic algorithms.
+These methods automatically pick the best features combination, at the cost of some additional computations in the training phase.
 In our case, the genetic algorithm managed to improved significantly the model performances, as described in \cref{subsection:genetic}.
