@@ -1,9 +1,6 @@
 \section{Comparison}
 \label{sec:comparison}
 
-This section presents the comparison between \ac{WFST} and \ac{CRF}.
-We focus in the model performances and training complexity.
-
 \subsection{Baseline}
 The best \ac{WFST} model in the mid-term project used a 4-gram language model for the concept tags and achieved a F1 score of $82.74\%$.
 The baseline \ac{CRF} model described in \cref{subsection:words} achieved a F1 score of $81.39\%$.
@@ -17,6 +14,26 @@ The more advanced \ac{CRF} models trained described in \cref{subsection:addition
 The model combines words, POS tags, stems, prefixes and radixes.
 This shows how discriminative models can exploit additional information that can not be easily modeled with generative models.
 Thanks to this additional information, \ac{CRF} outperformed \ac{WFST} on the concept tagging task.
+
+\begin{table}[h]
+	\centering
+    \begin{tabular}{ c c c c }
+    	\toprule
+    		\multicolumn{1}{c}{algorithm} & \multicolumn{1}{c}{prec.} & \multicolumn{1}{c}{rec.} & \multicolumn{1}{c}{F1} \\
+    	\midrule
+            WFST (4-gram) & 82.44\% & 83.04\% & 82.74\% \\
+            CRF (manual) & 86.72\% & 80.66\% & 83.57\% \\
+			CRF (genetic) & 87.52\% & 81.03\% & 84.15\% \\
+    	\bottomrule
+	\end{tabular}
+    \caption{Comparison of the performances of the best models for \ac{WFST} and \ac{CRF}.}
+	\label{tab:best}
+\end{table}
+
+\cref{tab:best} compares the performances of best \ac{WFST} and \ac{CRF} models.
+We can notice that the \ac{WFST} model has a significantly higher recall than both \ac{CRF} models.
+\ac{WFST} tends to be more conservative in the classification, probably due to the more complex language model (4-grams) than tends to prevent false positives.
+On the other hand, \ac{CRF} models exploit multiple features and are able to find more concepts, at the cost of some extra false positive.
 
 \subsection{Training Complexity}
 \ac{WFST} models are based only on the probability distributions of the feature taken into account and the tags, so they are very easy to train.

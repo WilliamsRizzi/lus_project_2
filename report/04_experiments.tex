@@ -1,15 +1,11 @@
 \section{Experiments}
 \label{sec:experiments}
-We started with simple models taking into account only the words, without the additional features.
-Then, we added the additional available features, one at a time.
-We created quite complex models that achieved good performances.
-Finally, we used a genetic algorithm to automatically select the best available features.
 
 \subsection{Words}
 \label{subsection:words}
 The first trial was to try to classify the concepts using only the words of the sentence.
 The result was used as the baseline for the evaluation of the performances of more complex models.
-We experimented using different window sizes, i.e. creating a feature function for the current word and the preceding and following $n$ words, with $n \in [0,8]$.
+We experimented using different window sizes, i.e. creating a feature function for the current word and the preceding and following $n$ words, with $n \in [0,6]$.
 In addition, we tried to enable the bigram templates of \texttt{CRF++}, i.e. considering also the label of the previous word to classify the current one. 
 
 \begin{table}[h]
@@ -39,7 +35,7 @@ The next step was to try with the other features initially provided, i.e. \ac{PO
 Given the results presented in \cref{subsection:words}, we decided to consider only templates using the bigrams.
 
 From the best template in the previous section (windows size of $2$), we started to add \ac{POS} features.
-The used again the window approach, with a size $n \in [0,5]$.
+The used again the window approach, with a size $n \in [0,4]$.
 The results are showed in \cref{tab:pos}.
 As expected, the \ac{POS} features improved the performances of the classifier.
 The best model was obtained for $n = 2$.
@@ -47,9 +43,9 @@ Similarly to the previous models, a large window seems to overfit the training d
 
 \begin{table}[h]
 	\centering
-    \begin{tabular}{ c c }
+    \begin{tabular}{ c c c c }
     	\toprule
-    		\multicolumn{1}{c}{n} & \multicolumn{1}{c}{F1} \\
+    		\multicolumn{1}{c}{n} & \multicolumn{1}{c}{prec.} & \multicolumn{1}{c}{rec.} & \multicolumn{1}{c}{F1} \\
     	\midrule
             \input{table/02_pos}
     	\bottomrule
@@ -60,16 +56,16 @@ Similarly to the previous models, a large window seems to overfit the training d
 
 \subsection{Stems}
 \label{subsection:stems}
-We repeated the same procedure for the word stems, using a window size $n \in [0,5]$.
+We repeated the same procedure for the word stems, using a window size $n \in [0,4]$.
 The stem feature helped to obtain a slightly improvement, even tough not significant.
 In this case, a window size of $0$ made the classifier performances slightly better, while all other attempts gave a worsening.
 The results of this trial are reported in \cref{tab:stems}.
 
 \begin{table}[h]
 	\centering
-    \begin{tabular}{ c c }
+    \begin{tabular}{ c c c c }
     	\toprule
-    		\multicolumn{1}{c}{n} & \multicolumn{1}{c}{F1} \\
+    		\multicolumn{1}{c}{n} & \multicolumn{1}{c}{prec.} & \multicolumn{1}{c}{rec.} & \multicolumn{1}{c}{F1} \\
     	\midrule
             \input{table/03_stems}
     	\bottomrule
@@ -92,7 +88,22 @@ The feature ``stem is capitalized'' and ``word is a language'' did not help the 
 The words' prefixes and suffixes, on the other hand, improved the classifier performances, reaching F1 score of $83.44\%$
 
 \subsection{Regularization}
-TODO: best model on different valued of the Regularization parameter.
+We tried different regularization parameters (\texttt{c} option in \texttt{CRF++}) for the best model found so far.
+\cref{tab:regularization} show the performances for different \texttt{c} values.
+We can notice that the parameter slightly influences the final performances.
+
+\begin{table}[h]
+	\centering
+    \begin{tabular}{ c c c c }
+    	\toprule
+    		\multicolumn{1}{c}{c} & \multicolumn{1}{c}{prec.} & \multicolumn{1}{c}{rec.} & \multicolumn{1}{c}{F1} \\
+    	\midrule
+            \input{table/04_regularization}
+    	\bottomrule
+	\end{tabular}
+    \caption{Performances of the the best \ac{CRF} model so far, trained using different regularization parameters.}
+	\label{tab:regularization}
+\end{table}
 
 \subsection{Genetic Algorithm}
 \label{subsection:genetic}
@@ -141,3 +152,6 @@ The \texttt{CRF++} internal optimization routine was probably not able to find t
 
 We believe that it is possible to obtain even better results by tuning the meta-parameters of the genetic algorithm and running the algorithm for additional epochs.
 This exploration requires a significant amount of time and is left as a future work.
+
+Changing the regularization parameter does not help the the best model found by the genetic algorithm.
+The algorithm seems to be able to automatically pick the best features for the given regularization parameter.
